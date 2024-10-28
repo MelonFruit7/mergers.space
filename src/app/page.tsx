@@ -10,7 +10,7 @@ export default function Home() {
       <main className="w-[100vw] overflow-hidden">
         <FirstView></FirstView>
         <Preview></Preview>
-        {/* <Core></Core> */}
+        <Core></Core>
       </main>
   )
 };
