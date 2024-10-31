@@ -19,7 +19,7 @@ const ReviewCard = (f: ReviewCardProp) => {
                 <FaRegThumbsUp className="h-full w-auto p-2 bg-blue-500 rounded-2xl"></FaRegThumbsUp>
                 <p className="text-lg md:text-2xl p-2">Played for: {f.playtime} hours</p>
             </div>
-            <p className="text-lg p-2 font-mono">
+            <p className="text-lg p-2 font-mono whitespace-pre-wrap">
                 {f.review}
             </p>
         </div>

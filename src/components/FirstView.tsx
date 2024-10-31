@@ -41,7 +41,7 @@ const FirstView = () => {
                 }
             </div>
             <div className="h-[100vh]">
-                <Nodes></Nodes>
+                <Nodes id="1"></Nodes>
                 <div ref={logo} className="relative h-full flex justify-center items-center opacity-0 duration-[2s] ease-in transition-opacity">
                     <img alt="logo" src="logo.png" className="w-[50%]"></img>
                     {/* <p className="text-3xl md:text-9xl font-mono select-none text-center">
