@@ -1,11 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Nodes from "@/components/Nodes";
+import MoveWithin from "@/components/MoveWithin"
 
 const Core = () => {
     const [text, setText] = useState('');
+
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchText = async () => {
@@ -20,20 +23,21 @@ const Core = () => {
         fetchText();
     }, []);
 
+
+
     return (
         <div className="min-h-[100vh] relative bg-white flex flex-col-reverse md:flex-row">
          
            <div className='relative w-full md:w-[25vw] h-[100vh] flex justify-center items-center border-r-2 border-black bg-black'>
-                {/* <Nodes id="2"></Nodes> */}
-                <img className="relative max-w-96 max-h-96 h-[100%] md:w-[100%] border-purple-700 border-2 rounded-xl" alt="gameplay" src="ship.png"></img>
+                <img className="max-h-[75%] w-auto h-auto border-purple-700 border-2 rounded-xl" alt="gameplay" src="ship.png"></img>
            </div>
 
            <div className='relative w-full md:w-[75vw] h-[100vh] 
-                            flex flex-col items-center
-                            p-5 md:p-20 
-                            bg-[url(/background.png)]'>
+                            flex flex-col items-center gap-5 md:gap-10
+                            p-5 md:p-10 
+                            bg-[#b4c3db]'>
 
-                <div className='border-2 w-[100%] h-[100%] text-black overflow-scroll bg-white'>
+                <div className='border-2 w-[100%] flex-grow text-black overflow-scroll bg-white'>
 
                     <h1 className='font-bold text-xl md:text-3xl font-mono sticky top-0 bg-white text-center'>What is Space Mergers?</h1>
                     <ReactMarkdown className="prose p-5 font-serif" components={{
@@ -45,9 +49,9 @@ const Core = () => {
 
                 </div>
 
-                <div className='border-2 w-[100%] h-[50%] flex flex-col items-center'>
+                <div ref={containerRef} className='relative border-2 w-[100%] h-[100%] flex flex-col items-center bg-black border-white'>
                     <h1 className='text-white font-bold text-md lg:text-3xl font-mono'>Some Space Mergers assets!</h1>
-                    <img className="h-[100%]" alt="Cropped Sprites" src="/CroppedSprites.png"></img>
+                    <MoveWithin img_url='./CroppedSprites.png' img_height='h-[20%]' parent={containerRef.current} others={[]}></MoveWithin>
                 </div>
            </div>
         </div>
