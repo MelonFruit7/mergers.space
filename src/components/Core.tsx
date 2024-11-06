@@ -10,6 +10,79 @@ const Core = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
+    const images = 2;
+    const img_urls = ["./CroppedSprites.png", "./ship.png"]
+    const img_height = "h-[20%]"
+    const [positions, setPositions] = useState(
+        Array.from({ length: images }, () => ({ x: Math.random()*1000, y: Math.random()*1000 }))
+    );
+    const [rotations, setRotations] = useState(
+        Array.from({ length: images }, () => 0)  
+    );
+    const [velocities, setVelocities] = useState(
+        Array.from({ length: images }, () => ({dx: 2, dy: 2}))
+    );
+
+    const updatePosition = (index: number, newX: number, newY: number) => {
+        setPositions((prevPositions) =>
+            prevPositions.map((pos, i) =>
+                i === index ? { x: newX, y: newY } : pos
+            )
+        );
+    };
+
+    const updateVelocity = (index: number, newX: number, newY: number) => {
+        setVelocities((prevVelocities) =>
+            prevVelocities.map((pos, i) =>
+                i === index ? { dx: newX, dy: newY } : pos
+            )
+        );
+    };
+
+
+    const updateRotation = (index: number, newRotation: number) => {
+        setRotations((prevRotation) =>
+            prevRotation.map((rotation, i) =>
+                i === index ? newRotation : rotation
+            )
+        );
+    };
+
+    interface Shape {
+        imgRef: React.RefObject<HTMLImageElement>;
+        img: React.ReactNode,
+        position: {x: number, y: number},
+        positionUpdate: (newX: number, newY: number) => void,
+        velocity: {dx: number, dy: number},
+        velocityUpdate: (newX: number, newY: number) => void,
+        rotation: number,
+        rotationUpdate: (newRotation: number) => void
+    }
+
+    const outer_object: Shape[] = Array.from({length: images}, (_, idx) => {
+        const imgRef = useRef<HTMLImageElement>(null); // Create a ref for each image
+
+        return {
+            imgRef,
+            img: <img ref={imgRef} alt="img" className={`${img_height}`} src={`${img_urls[idx]}`}
+                    style={
+                        {
+                            position: "absolute",
+                            left: `${positions[idx].x}px`,
+                            top: `${positions[idx].y}px`,
+                            transform: `translate(-50%, -50%) rotate(${rotations[idx]}deg)`, // Apply rotation
+                            transition: "transform 0.1s linear", // Smooth rotation
+                        }
+                    }/>,
+            position: positions[idx],
+            positionUpdate: (newX: number, newY: number) => updatePosition(idx, newX, newY),
+            velocity: velocities[idx],
+            velocityUpdate: (newX: number, newY: number) => updateVelocity(idx, newX, newY),
+            rotation: rotations[idx],
+            rotationUpdate: (newRotation: number) => updateRotation(idx, newRotation)
+        }
+    })
+
     useEffect(() => {
         const fetchText = async () => {
             try {
@@ -22,7 +95,6 @@ const Core = () => {
         };
         fetchText();
     }, []);
-
 
 
     return (
@@ -51,7 +123,8 @@ const Core = () => {
 
                 <div ref={containerRef} className='relative border-2 w-[100%] h-[100%] flex flex-col items-center bg-black border-white'>
                     <h1 className='text-white font-bold text-md lg:text-3xl font-mono'>Some Space Mergers assets!</h1>
-                    <MoveWithin img_url='./CroppedSprites.png' img_height='h-[20%]' parent={containerRef.current} others={[]}></MoveWithin>
+                    <MoveWithin image={outer_object[0]} parent={containerRef.current} others={outer_object[1]}></MoveWithin>
+                    <MoveWithin image={outer_object[1]} parent={containerRef.current} others={outer_object[0]}></MoveWithin>
                 </div>
            </div>
         </div>
