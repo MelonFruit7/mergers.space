@@ -10,9 +10,9 @@ const Core = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const images = 2;
-    const img_urls = ["./CroppedSprites.png", "./ship.png"]
-    const img_height = "h-[20%]"
+    const images = 8;
+    const img_urls = [ "./ship.png", "./ship.png",  "./ship.png",  "./ship.png", "./ship.png", "./ship.png", "./ship.png", "./ship.png"]
+    const img_height = "h-[10%]"
     const [positions, setPositions] = useState(
         Array.from({ length: images }, () => ({ x: Math.random()*1000, y: Math.random()*1000 }))
     );
@@ -109,7 +109,7 @@ const Core = () => {
                             p-5 md:p-10 
                             bg-[#b4c3db]'>
 
-                <div className='border-2 w-[100%] flex-grow text-black overflow-scroll bg-white'>
+                <div className='border-2 w-[100%] h-[100%] text-black overflow-scroll bg-white'>
 
                     <h1 className='font-bold text-xl md:text-3xl font-mono sticky top-0 bg-white text-center'>What is Space Mergers?</h1>
                     <ReactMarkdown className="prose p-5 font-serif" components={{
@@ -123,8 +123,11 @@ const Core = () => {
 
                 <div ref={containerRef} className='relative border-2 w-[100%] h-[100%] flex flex-col items-center bg-black border-white'>
                     <h1 className='text-white font-bold text-md lg:text-3xl font-mono'>Some Space Mergers assets!</h1>
-                    <MoveWithin image={outer_object[0]} parent={containerRef.current} others={outer_object[1]}></MoveWithin>
-                    <MoveWithin image={outer_object[1]} parent={containerRef.current} others={outer_object[0]}></MoveWithin>
+                    {
+                        outer_object.map((value, index) => (
+                            <MoveWithin image={value} parent={containerRef.current} others={outer_object.filter((value, idx) => idx != index)}></MoveWithin>
+                        ))
+                    }
                 </div>
            </div>
         </div>
