@@ -1,18 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-"use client"
-import React from 'react';
-import {useState, useRef, useEffect} from "react";
-
-
 interface Shape {
     imgRef: React.RefObject<HTMLImageElement>;
-    img: React.ReactNode,
     position: {x: number, y: number},
-    positionUpdate: (newX: number, newY: number) => void,
     velocity: {dx: number, dy: number},
-    velocityUpdate: (newX: number, newY: number) => void,
     rotation: number,
-    rotationUpdate: (newRotation: number) => void
 }
 
 class Vector {
@@ -36,7 +26,7 @@ class Vector {
     get_mag = (): number => Math.sqrt(this.x*this.x + this.y*this.y);
 }
 
-const MoveWithin = ({image, parent, others} : {image: Shape, parent: HTMLDivElement | null, others: Shape[]}) => {
+const Separate = ({images, parent} : {images: Shape[], parent: HTMLDivElement | null}) => {
     const get_interval = (points: Vector[], axis: Vector) => {
         //Axis will be a unit vector
         const res = new Vector(0, 0);
@@ -108,14 +98,11 @@ const MoveWithin = ({image, parent, others} : {image: Shape, parent: HTMLDivElem
         return axis;
     };
     
-    useEffect(() => {
-        const image_element = image.imgRef.current;
-        
-        const move = () => {
-                const new_pos = {
-                    x: image.position.x+image.velocity.dx,
-                    y: image.position.y+image.velocity.dy
-                };
+    const move = () => {
+            for (let i = 0; i < images.length; i++) {
+                const image = images[i];
+                const image_element = image.imgRef.current;
+
                 if (image_element && parent) {
                     const container_width = parent.offsetWidth;
                     const container_height = parent.offsetHeight;
@@ -124,19 +111,21 @@ const MoveWithin = ({image, parent, others} : {image: Shape, parent: HTMLDivElem
                     const imageHeight = image_element.offsetHeight*Math.abs(Math.cos(image.rotation*Math.PI/180)) + image_element.offsetWidth*Math.abs(Math.sin(image.rotation*Math.PI/180));
 
                     // Check horizontal boundaries
-                    if (new_pos.x <= imageWidth/2 || new_pos.x + imageWidth/2 >= container_width) {
-                        image.velocityUpdate(-image.velocity.dx, image.velocity.dy);
-                        new_pos.x = Math.max(imageWidth/2, Math.min(new_pos.x, container_width - imageWidth/2)); // Keep image within bounds
+                    if (image.position.x <= imageWidth/2 || image.position.x + imageWidth/2 >= container_width) {
+                        image.velocity.dx = -image.velocity.dx;
+                        image.position.x = Math.max(imageWidth/2, Math.min(image.position.x, container_width - imageWidth/2)); // Keep image within bounds
                     }
 
                     // Check vertical boundaries
-                    if (new_pos.y <= imageHeight/2 || new_pos.y + imageHeight/2 >= container_height) {
-                        image.velocityUpdate(image.velocity.dx, -image.velocity.dy);
-                        new_pos.y = Math.max(imageHeight/2, Math.min(new_pos.y, container_height - imageHeight/2)); // Keep image within bounds
+                    if (image.position.y <= imageHeight/2 || image.position.y + imageHeight/2 >= container_height) {
+                        image.velocity.dy = -image.velocity.dy;
+                        image.position.y = Math.max(imageHeight/2, Math.min(image.position.y, container_height - imageHeight/2)); // Keep image within bounds
                     }
 
-                    for (let i = 0; i < others.length; i++) {
-                        let MVT = SAT(image, others[i]);
+                    for (let j = 0; j < images.length; j++) {
+                        if (i == j) continue;
+
+                        let MVT = SAT(image, images[j]);
                         if (MVT) {
                             image.imgRef.current!.style.borderColor = "#ff0000";
                             const mag = MVT.get_mag();
@@ -145,41 +134,34 @@ const MoveWithin = ({image, parent, others} : {image: Shape, parent: HTMLDivElem
                             const attempt1 = new Vector(image.position.x+MVT.x, image.position.y+MVT.y);
                             const attempt2 = new Vector(image.position.x-MVT.x, image.position.y-MVT.y);
                             
-                            const a1 = new Vector(others[i].position.x-attempt1.x, others[i].position.y-attempt1.y);
-                            const a2 = new Vector(others[i].position.x-attempt2.x, others[i].position.y-attempt2.y);
+                            const a1 = new Vector(images[j].position.x-attempt1.x, images[j].position.y-attempt1.y);
+                            const a2 = new Vector(images[j].position.x-attempt2.x, images[j].position.y-attempt2.y);
 
                             let multiplier = 1;
                             if (a1.get_mag() < a2.get_mag()) multiplier *= -1;
 
                             if (a1.get_mag() > a2.get_mag()) {
                                 const res = new Vector(image.velocity.dx+MVT.x, image.velocity.dy+MVT.y);
-                                res.limit(5);
-                                image.velocityUpdate(res.x, res.y);
+                                res.limit(3);
+                                image.velocity = {dx: res.x, dy: res.y};
                             } else {
                                 const res = new Vector(image.velocity.dx-MVT.x, image.velocity.dy-MVT.y);
-                                res.limit(5);
-                                image.velocityUpdate(res.x, res.y);
+                                res.limit(3);
+                                image.velocity = {dx: res.x, dy: res.y};
                             }
                         } else {
                             image.imgRef.current!.style.borderColor = "#ffffff";
                         }
                     }
                 }
+            }
 
-                image.rotationUpdate(image.rotation+Math.random());
-                image.positionUpdate(new_pos.x, new_pos.y);
-        }
-        const intervalId = setInterval(move, 20); // Adjust interval for speed
-
-        return () => clearInterval(intervalId); // Cleanup interval on component unmount
-    }, [image.position, image.rotation, parent]);
-
-
-    return (
-        <>
-            {image.img}
-        </>
-    )
+            images.forEach(image => {
+                image.rotation = (image.rotation+Math.random());
+                image.position = {x: image.position.x+image.velocity.dx, y: image.position.y+image.velocity.dy};
+            });
+    }
+    move();
 }
 
-export default MoveWithin;
+export default Separate;

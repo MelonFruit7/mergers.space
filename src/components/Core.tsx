@@ -1,87 +1,51 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import React, { useEffect, useRef, useState } from 'react';
+import React, { LegacyRef, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Nodes from "@/components/Nodes";
-import MoveWithin from "@/components/MoveWithin"
+import Separate from "./Separate"
 
 const Core = () => {
     const [text, setText] = useState('');
+    const [renderState, setRenderState] = useState(false);
 
     const containerRef = useRef<HTMLDivElement>(null);
 
     const images = 8;
-    const img_urls = [ "./ship.png", "./ship.png",  "./ship.png",  "./ship.png", "./ship.png", "./ship.png", "./ship.png", "./ship.png"]
+    // const img_urls = [ "./ship.png", "./ship.png",  "./ship.png",  "./ship.png", "./ship.png", "./ship.png", "./ship.png", "./ship.png"]
+    const img_urls = Array.from({length: images}, () => "./ship.png");
     const img_height = "h-[10%]"
-    const [positions, setPositions] = useState(
-        Array.from({ length: images }, () => ({ x: Math.random()*1000, y: Math.random()*1000 }))
-    );
-    const [rotations, setRotations] = useState(
-        Array.from({ length: images }, () => 0)  
-    );
-    const [velocities, setVelocities] = useState(
-        Array.from({ length: images }, () => ({dx: 2, dy: 2}))
-    );
 
-    const updatePosition = (index: number, newX: number, newY: number) => {
-        setPositions((prevPositions) =>
-            prevPositions.map((pos, i) =>
-                i === index ? { x: newX, y: newY } : pos
-            )
-        );
-    };
+    const positions = Array.from({ length: images }, () => ({ x: Math.random()*0, y: Math.random()*0 }));
+    const rotations = Array.from({ length: images }, () => 0);
+    const velocities = Array.from({ length: images }, () => ({dx: 2, dy: 2}));
+    const itemsRef = Array.from({length: images}, () => useRef<HTMLImageElement>(null));
 
-    const updateVelocity = (index: number, newX: number, newY: number) => {
-        setVelocities((prevVelocities) =>
-            prevVelocities.map((pos, i) =>
-                i === index ? { dx: newX, dy: newY } : pos
-            )
-        );
-    };
-
-
-    const updateRotation = (index: number, newRotation: number) => {
-        setRotations((prevRotation) =>
-            prevRotation.map((rotation, i) =>
-                i === index ? newRotation : rotation
-            )
-        );
-    };
 
     interface Shape {
         imgRef: React.RefObject<HTMLImageElement>;
-        img: React.ReactNode,
         position: {x: number, y: number},
-        positionUpdate: (newX: number, newY: number) => void,
         velocity: {dx: number, dy: number},
-        velocityUpdate: (newX: number, newY: number) => void,
         rotation: number,
-        rotationUpdate: (newRotation: number) => void
     }
+    const shapes = useRef<Shape[]>(
+        Array.from({ length: images }, (_, i) => ({
+            imgRef: itemsRef[i],
+            position: { x: Math.random() * 0, y: Math.random() * 0 },
+            velocity: { dx: 2, dy: 2 },
+            rotation: 0,
+        })
+    ));
 
-    const outer_object: Shape[] = Array.from({length: images}, (_, idx) => {
-        const imgRef = useRef<HTMLImageElement>(null); // Create a ref for each image
-
-        return {
-            imgRef,
-            img: <img ref={imgRef} alt="img" className={`${img_height}`} src={`${img_urls[idx]}`}
-                    style={
-                        {
-                            position: "absolute",
-                            left: `${positions[idx].x}px`,
-                            top: `${positions[idx].y}px`,
-                            transform: `translate(-50%, -50%) rotate(${rotations[idx]}deg)`, // Apply rotation
-                            transition: "transform 0.1s linear", // Smooth rotation
-                        }
-                    }/>,
-            position: positions[idx],
-            positionUpdate: (newX: number, newY: number) => updatePosition(idx, newX, newY),
-            velocity: velocities[idx],
-            velocityUpdate: (newX: number, newY: number) => updateVelocity(idx, newX, newY),
-            rotation: rotations[idx],
-            rotationUpdate: (newRotation: number) => updateRotation(idx, newRotation)
-        }
-    })
+    const animationFrameRef = useRef<number | null>(null);  // Store the animation frame ID for canceling the animation
+    // Start the animation loop
+    useEffect(() => {
+        setTimeout(() => {
+            Separate({images: shapes.current, parent: containerRef.current});
+            setRenderState(!renderState);
+        }, 20);
+    }, [renderState]);
 
     useEffect(() => {
         const fetchText = async () => {
@@ -101,7 +65,7 @@ const Core = () => {
         <div className="min-h-[100vh] relative bg-white flex flex-col-reverse md:flex-row">
          
            <div className='relative w-full md:w-[25vw] h-[100vh] flex justify-center items-center border-r-2 border-black bg-black'>
-                <img className="max-h-[75%] w-auto h-auto border-purple-700 border-2 rounded-xl" alt="gameplay" src="ship.png"></img>
+                <img className="max-h-[75%] max-w-[90%] w-auto h-auto border-purple-700 border-2 rounded-xl" alt="gameplay" src="ship.png"></img>
            </div>
 
            <div className='relative w-full md:w-[75vw] h-[100vh] 
@@ -121,13 +85,26 @@ const Core = () => {
 
                 </div>
 
-                <div ref={containerRef} className='relative border-2 w-[100%] h-[100%] flex flex-col items-center bg-black border-white'>
+                <div ref={containerRef} className='relative border-2 w-[100%] h-[50%] flex flex-col items-center bg-black border-white'>
                     <h1 className='text-white font-bold text-md lg:text-3xl font-mono'>Some Space Mergers assets!</h1>
-                    {
-                        outer_object.map((value, index) => (
-                            <MoveWithin image={value} parent={containerRef.current} others={outer_object.filter((value, idx) => idx != index)}></MoveWithin>
-                        ))
-                    }
+                        {   
+                                img_urls.map((url, idx) => (
+
+                                        <img key={idx} ref={itemsRef[idx]} alt="img" className={`${img_height}`} src={`${url}`}
+                                            style={
+                                                (renderState || true) ?
+                                                {
+                                                    position: "absolute",
+                                                    left: `${shapes.current[idx].position.x}px`,
+                                                    top: `${shapes.current[idx].position.y}px`,
+                                                    transform: `translate(-50%, -50%) rotate(${shapes.current[idx].rotation}deg)`, // Apply rotation
+                                                    transition: "transform 0.1s linear", // Smooth rotation
+                                                }
+                                                : {}
+                                        }/>
+
+                                ))
+                        }
                 </div>
            </div>
         </div>
