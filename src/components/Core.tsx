@@ -17,9 +17,6 @@ const Core = () => {
     const img_urls = Array.from({length: images}, () => "./ship.png");
     const img_height = "h-[10%]"
 
-    const positions = Array.from({ length: images }, () => ({ x: Math.random()*0, y: Math.random()*0 }));
-    const rotations = Array.from({ length: images }, () => 0);
-    const velocities = Array.from({ length: images }, () => ({dx: 2, dy: 2}));
     const itemsRef = Array.from({length: images}, () => useRef<HTMLImageElement>(null));
 
 

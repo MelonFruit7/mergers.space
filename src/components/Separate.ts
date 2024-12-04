@@ -104,8 +104,8 @@ const Separate = ({images, parent} : {images: Shape[], parent: HTMLDivElement | 
                 const image_element = image.imgRef.current;
 
                 if (image_element && parent) {
-                    const container_width = parent.offsetWidth;
-                    const container_height = parent.offsetHeight;
+                    const container_width = parent.offsetWidth - 4;
+                    const container_height = parent.offsetHeight - 4;
 
                     const imageWidth = image_element.offsetWidth*Math.abs(Math.cos(image.rotation*Math.PI/180)) + image_element.offsetHeight*Math.abs(Math.sin(image.rotation*Math.PI/180));
                     const imageHeight = image_element.offsetHeight*Math.abs(Math.cos(image.rotation*Math.PI/180)) + image_element.offsetWidth*Math.abs(Math.sin(image.rotation*Math.PI/180));
@@ -142,11 +142,11 @@ const Separate = ({images, parent} : {images: Shape[], parent: HTMLDivElement | 
 
                             if (a1.get_mag() > a2.get_mag()) {
                                 const res = new Vector(image.velocity.dx+MVT.x, image.velocity.dy+MVT.y);
-                                res.limit(3);
+                                res.limit(container_height*0.03);
                                 image.velocity = {dx: res.x, dy: res.y};
                             } else {
                                 const res = new Vector(image.velocity.dx-MVT.x, image.velocity.dy-MVT.y);
-                                res.limit(3);
+                                res.limit(container_height*0.03);
                                 image.velocity = {dx: res.x, dy: res.y};
                             }
                         } else {

@@ -11,15 +11,15 @@ const ReviewCard = (f: ReviewCardProp) => {
     const maxHeightClass = `max-h-[250px]`;
 
     const mdMaxWidthClass = `md:max-w-[700px]`;
-    const mdMaxHeightClass = `md:max-h-[500px]`;
+    const mdMaxHeightClass = `md:max-h-[min(500px,80vh)]`;
 
     return (
         <div className={`bg-[#1B2838] shadow-xl shadow-purple-800 h-full w-full p-4 m-4 ${maxWidthClass} ${maxHeightClass} ${mdMaxWidthClass} ${mdMaxHeightClass} border-2 rounded-2xl overflow-scroll`}>
             <div className="bg-[#3D5467] w-[100%] h-8 md:h-16 rounded-2xl flex flex-row items-center">
-                <FaRegThumbsUp className="h-full w-auto p-2 bg-blue-500 rounded-2xl"></FaRegThumbsUp>
-                <p className="text-lg md:text-2xl p-2">Played for: {f.playtime} hours</p>
+                <FaRegThumbsUp className="h-full w-auto p-2 bg-blue-500 text-white rounded-2xl"></FaRegThumbsUp>
+                <p className="text-lg md:text-2xl p-2 text-white">Played for: {f.playtime} hours</p>
             </div>
-            <p className="text-lg p-2 font-mono whitespace-pre-wrap">
+            <p className="text-lg p-2 font-mono whitespace-pre-wrap text-white">
                 {f.review}
             </p>
         </div>
