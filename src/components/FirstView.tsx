@@ -13,20 +13,37 @@ const FirstView = () => {
     let spaceships = 5;
     
     useEffect(() => {
+        // Check if the elements exist
+        if (!slider.current || !logo.current) return;
+    
+        // Ensure initial setup
         setWidthX(window.screen.width);
         document.body.style.overflow = 'hidden';
-        
-        slider.current!.style.height = '0vh';
-        slider.current!.addEventListener("transitionend", () => {
+    
+        // Event handler functions
+        const handleSliderTransitionEnd = () => {
             logo.current!.style.opacity = '1';
-        });
-        logo.current!.addEventListener("transitionend", () => {
+        };
+    
+        const handleLogoTransitionEnd = () => {
             setLoad(true);
             document.body.style.overflow = 'auto';
-        });
+        };
+    
+        // Add listeners
+        slider.current.style.height = '0vh';
+        slider.current.addEventListener("transitionend", handleSliderTransitionEnd);
+        logo.current.addEventListener("transitionend", handleLogoTransitionEnd);
+    
+        // Cleanup listeners
+        return () => {
+            slider.current?.removeEventListener("transitionend", handleSliderTransitionEnd);
+            logo.current?.removeEventListener("transitionend", handleLogoTransitionEnd);
+        };
     }, []);
+    
     return (
-        <div className={load ? "" : "fixed z-10"}>
+        <div className={load ? "" : "fixed z-20"}>
             <div ref={slider} className="h-[100vh] w-[100vw] relative bg-black duration-[3s] ease-in transition-[height] overflow-hidden flex justify-around items-end">
                 {
                     [...Array(spaceships)].map((x, i) => (
@@ -35,7 +52,7 @@ const FirstView = () => {
                                 height: `${widthX/10}px`,
                                 backgroundSize: `${widthX/10}px ${widthX/10}px`,
                             }}
-                            className={`bg-[url('/ship.png')] bg-no-repeat`}>
+                            className={`bg-[url('/ship2.png')] bg-no-repeat`}>
                         </div>
                     ))
                 }

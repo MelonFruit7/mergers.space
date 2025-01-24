@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Space Mergers",
   description: "The official website for Space Mergers",
+  icons: "/waveBottom.svg"
 };
 
 export default function RootLayout({
