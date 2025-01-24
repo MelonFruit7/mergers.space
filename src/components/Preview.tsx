@@ -97,7 +97,7 @@ const Preview = () => {
                         <img ref={mercury} className="absolute bottom-0 left-[20%] w-[3%]" style={{
                             transform: `translate(-${offset_mercury}%, 0) rotate(-${orbit}deg) translate(${offset_mercury}%, 0)`
                         }} src="pixel_mercury.png" alt="mercury"></img>
-                        <img ref={venus} className="absolute bottom-0 left-[28%] w-[6%]" style={{
+                        <img ref={venus} className="absolute bottom-0 left-[28%] w-[4%]" style={{
                             transform: `translate(-${offset_venus}%, 0) rotate(-${orbit*0.73}deg) translate(${offset_venus}%, 0)`
                         }} src="pixel_venus.png" alt="venus"></img>
                         <img ref={earth} className="absolute bottom-0 left-[39%] w-[5%]" style={{
