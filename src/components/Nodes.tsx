@@ -10,7 +10,7 @@ import {
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 import React from "react";
 
-const Nodes = React.memo(() => {
+const Nodes = React.memo(({id} : {id: string}) => {
   const [init, setInit] = useState(false);
   const [dense, setDense] = useState(false);
 
@@ -117,7 +117,7 @@ const Nodes = React.memo(() => {
   if (init) {
     return (
       <Particles
-        id="tsparticles"
+        id={`tsparticles-${id}`} // Use uniqueId here
         particlesLoaded={particlesLoaded}
         options={options}
         className="absolute h-[100vh] w-[100vw]"
