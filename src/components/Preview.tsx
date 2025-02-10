@@ -24,7 +24,7 @@ const Preview = () => {
     const [orbit, setOrbit] = useState<number>(0);
     useEffect(() => {
         setTimeout(() => {
-            setOrbit(orbit+0.1);
+            setOrbit(orbit+0.2);
         }, 20);
     }, [orbit]);
 
@@ -71,19 +71,19 @@ const Preview = () => {
     return (
         <>
             <img alt="waveBottom" src="waveBottom.svg" className='w-[100vw] h-48 bg-white'/>
-            <div className="min-h-[100vh] bg-white flex flex-col md:flex-row">
+            <div className=" bg-white flex flex-col lg:flex-row">
 
                 {/* <div className="bg-gradient-to-b from-black to-white h-[10vh] w-[100vw] z-10"></div> */}
                 <div 
-                    className="relative w-[100vw] h-[100vh] flex-1 overflow-hidden border-b-2 md:border-r-2 md:border-b-0 border-black"
+                    className="relative w-[100vw] h-[100vh] min-h-[50vh] flex-1 overflow-hidden border-b-2 lg:border-r-2 lg:border-b-0 border-black"
                     style={{
                         background: `radial-gradient(circle at 0% 100%, red, #FFDA40 10%, transparent 20%)`
                     }}>
                     <div className="p-2 h-full">
-                        <div className="flex justify-evenly items-center h-8 md:h-16">
-                            {<BsArrowLeftSquareFill onClick={update_review_left} className={`text-black h-full w-auto ${r == 0 ? "invisible" : ""}`}></BsArrowLeftSquareFill>}
-                            <p className="text-black text-3xl md:text-6xl text-center font-PressStart select-none">Reviews</p>
-                            {<BsArrowRightSquareFill onClick={update_review_right} className={`text-black h-full w-auto ${data && r == data.length-1 ? "invisible" : ""}`}></BsArrowRightSquareFill>}
+                        <div className="flex justify-evenly items-center h-8 lg:h-16">
+                            {<BsArrowLeftSquareFill onClick={update_review_left} className={`text-black h-full w-auto z-10 ${r == 0 ? "invisible" : ""}`}></BsArrowLeftSquareFill>}
+                            <p className="text-black text-3xl lg:text-6xl text-center font-PressStart select-none z-10">Reviews</p>
+                            {<BsArrowRightSquareFill onClick={update_review_right} className={`text-black h-full w-auto z-10 ${data && r == data.length-1 ? "invisible" : ""}`}></BsArrowRightSquareFill>}
                         </div>
                         <div className="flex flex-col items-center">
                             {   
@@ -93,37 +93,37 @@ const Preview = () => {
                                     <></>
                             }
                         </div>
-                        <img className="absolute bottom-0 left-0 w-[30%] transform translate-x-[-50%] translate-y-[50%]" src="pixel_sun.png" alt="sun"></img>
+                        <img className="absolute bottom-0 left-0 w-[30%] transform translate-x-[-50%] translate-y-[50%]" src="planets/pixel_sun.png" alt="sun"></img>
                         <img ref={mercury} className="absolute bottom-0 left-[20%] w-[3%]" style={{
                             transform: `translate(-${offset_mercury}%, 0) rotate(-${orbit}deg) translate(${offset_mercury}%, 0)`
-                        }} src="pixel_mercury.png" alt="mercury"></img>
+                        }} src="planets/pixel_mercury.png" alt="mercury"></img>
                         <img ref={venus} className="absolute bottom-0 left-[28%] w-[4%]" style={{
                             transform: `translate(-${offset_venus}%, 0) rotate(-${orbit*0.73}deg) translate(${offset_venus}%, 0)`
-                        }} src="pixel_venus.png" alt="venus"></img>
+                        }} src="planets/pixel_venus.png" alt="venus"></img>
                         <img ref={earth} className="absolute bottom-0 left-[39%] w-[5%]" style={{
                             transform: `translate(-${offset_earth}%, 0) rotate(-${orbit*0.62}deg) translate(${offset_earth}%, 0)`
-                        }} src="pixel_earth.png" alt="earth"></img>
+                        }} src="planets/pixel_earth.png" alt="earth"></img>
                         <img ref={mars} className="absolute bottom-0 left-[47%] w-[5%]" style={{
                             transform: `translate(-${offset_mars}%, 0) rotate(-${orbit*0.5}deg) translate(${offset_mars}%, 0)`
-                        }} src="pixel_mars.png" alt="mars"></img>
+                        }} src="planets/pixel_mars.png" alt="mars"></img>
                         <img ref={jupiter} className="absolute bottom-0 left-[57%] w-[10%]" style={{
                             transform: `translate(-${offset_jupiter}%, 0) rotate(-${orbit*0.27}deg) translate(${offset_jupiter}%, 0)`
-                        }} src="pixel_jupiter.png" alt="jupiter"></img>
+                        }} src="planets/pixel_jupiter.png" alt="jupiter"></img>
                         <img ref={saturn} className="absolute bottom-0 left-[70%] w-[12%]" style={{
                             transform: `translate(-${offset_saturn}%, 0) rotate(-${orbit*0.2}deg) translate(${offset_saturn}%, 0)`
-                        }} src="pixel_saturn.png" alt="saturn"></img>
+                        }} src="planets/pixel_saturn.png" alt="saturn"></img>
                         <img ref={uranus} className="absolute bottom-0 left-[82%] w-[7%]" style={{
                             transform: `translate(-${offset_uranus}%, 0) rotate(-${orbit*0.14}deg) translate(${offset_uranus}%, 0)`
-                        }} src="pixel_uranus.png" alt="uranus"></img>
+                        }} src="planets/pixel_uranus.png" alt="uranus"></img>
                         <img ref={neptune} className="absolute bottom-0 left-[92%] w-[7%]" style={{
                             transform: `translate(-${offset_neptune}%, 0) rotate(-${orbit*0.11}deg) translate(${offset_neptune}%, 0)`
-                        }} src="pixel_neptune.png" alt="neptune"></img>
+                        }} src="planets/pixel_neptune.png" alt="neptune"></img>
                     </div>
                 </div>
 
-                <div className="relative w-[100vw] h-[100vh] flex-1 flex justify-center overflow-hidden">
+                <div className="relative w-[100vw] h-[100vh] min-h-[50vh] flex-1 flex justify-center overflow-hidden">
                     <div className="p-2">
-                        <p className="text-black text-3xl md:text-6xl text-center font-PressStart select-none">Trailer</p>
+                        <p className="text-black text-3xl lg:text-6xl text-center font-PressStart select-none">Trailer</p>
                         <video ref={videoRef} className="max-h-[100vh] border-8 rounded-xl z-10" controls style={{
                             borderStyle: "ridge",
                         }}>

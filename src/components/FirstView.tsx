@@ -17,7 +17,7 @@ const FirstView = () => {
         if (!slider.current || !logo.current) return;
     
         // Ensure initial setup
-        setWidthX(window.screen.width);
+        setWidthX(window.innerWidth);
         document.body.style.overflow = 'hidden';
     
         // Event handler functions
@@ -48,11 +48,11 @@ const FirstView = () => {
                 {
                     [...Array(spaceships)].map((x, i) => (
                         <div key={i} style={{
-                                width: `${widthX/10}px`,
-                                height: `${widthX/10}px`,
-                                backgroundSize: `${widthX/10}px ${widthX/10}px`,
+                                width: `${widthX/(spaceships*2)}px`,
+                                height: `${widthX/(spaceships*2)}px`,
+                                backgroundSize: `${widthX/(spaceships*2)}px ${widthX/(spaceships*2)}px`,
                             }}
-                            className={`bg-[url('/ship2.png')] bg-no-repeat`}>
+                            className={`bg-[url('/sprites/ship.png')] bg-no-repeat`}>
                         </div>
                     ))
                 }

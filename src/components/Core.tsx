@@ -12,10 +12,13 @@ const Core = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const images = 8;
-    const img_urls = [ "./ship2.png", "./sprite1.png",  "./sprite2.png",  "./sprite3.png", "./sprite4.png", "./sprite5.png", "./sprite6.png", "./ship.png"]
+    const img_urls = ["sprites/ship.png", "sprites/ship2.png",
+                      "sprites/sprite1.png", "sprites/sprite2.png", "sprites/sprite3.png", "sprites/sprite4.png",
+                      "sprites/sprite5.png", "sprites/sprite6.png", "sprites/sprite7.png", "sprites/sprite8.png"];
+    const images = img_urls.length;
+    
     // const img_urls = Array.from({length: images}, () => "./ship.png");
-    const img_height = "h-[10%]"
+    const img_height = "h-[10%]";
 
     const itemsRef = Array.from({length: images}, () => useRef<HTMLImageElement>(null));
 
@@ -61,9 +64,9 @@ const Core = () => {
     return (
         <div className="min-h-[100vh] relative bg-white flex flex-col-reverse md:flex-row">
          
-           <div className='relative w-full md:w-[40vw] h-[100vh] flex flex-col justify-center items-center border-r-2 border-black bg-black'>
+           <div className='relative w-full md:w-[40vw] h-[50vh] md:h-[100vh] flex flex-col justify-center items-center border-r-2 border-black bg-black'>
                 <img className="max-h-[75%] max-w-[90%] w-auto h-auto rounded-xl" alt="gameplay" src="Mergetsthatspace.png"></img>
-                <div className='w-full h-[5%] bg-gradient-to-b from-black to-[#000b2e] absolute bottom-0 left-0'></div>
+                <div className='w-ful h-[5%] bg-gradient-to-b from-black to-[#000b2e] absolute bottom-0 left-0 md:hidden'></div>
            </div>
 
             <div className='w-[2%] flex'>

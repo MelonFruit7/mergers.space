@@ -10,8 +10,8 @@ const Footer = () => {
             </div>
 
             <div className='flex flex-col items-center justify-center w-full h-full'>
-                <p className='text-[1.75vh] text-white'>melonfruith1@gmail.com</p>
-                <p className='text-gray-500 text-[1vh] text-center'>@ 2024 Space Mergers, mergers.space</p>
+                <p className='text-[1.75vh] text-white'>game@mergers.space</p>
+                <p className='text-gray-500 text-[1vh] text-center'>@ 2025 Space Mergers, mergers.space</p>
             </div>
 
             <div className='flex flex-col items-center justify-center w-[50%] h-full'>
