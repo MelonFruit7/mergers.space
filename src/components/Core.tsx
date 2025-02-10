@@ -16,7 +16,7 @@ const Core = () => {
                       "sprites/sprite1.png", "sprites/sprite2.png", "sprites/sprite3.png", "sprites/sprite4.png",
                       "sprites/sprite5.png", "sprites/sprite6.png", "sprites/sprite7.png", "sprites/sprite8.png"];
     const images = img_urls.length;
-    
+
     // const img_urls = Array.from({length: images}, () => "./ship.png");
     const img_height = "h-[10%]";
 
@@ -66,7 +66,7 @@ const Core = () => {
          
            <div className='relative w-full md:w-[40vw] h-[50vh] md:h-[100vh] flex flex-col justify-center items-center border-r-2 border-black bg-black'>
                 <img className="max-h-[75%] max-w-[90%] w-auto h-auto rounded-xl" alt="gameplay" src="Mergetsthatspace.png"></img>
-                <div className='w-ful h-[5%] bg-gradient-to-b from-black to-[#000b2e] absolute bottom-0 left-0 md:hidden'></div>
+                <div className='w-full h-[5%] bg-gradient-to-b from-black to-[#000b2e] absolute bottom-0 left-0 md:hidden'></div>
            </div>
 
             <div className='w-[2%] flex'>
