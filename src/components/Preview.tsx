@@ -10,7 +10,7 @@ const Preview = () => {
     const [r, setR] = useState<number>(0);
 
     const fetch_data = async () => {
-        const response = await fetch("https://store.steampowered.com/appreviews/2821220?json=1&filter=recent&cursor=*&review_type=positive");
+        const response = await fetch("/api/steam-reviews", {method: "GET"});
         if (!response.ok) return;
         const json_data = await response.json();
         setData(json_data.reviews);

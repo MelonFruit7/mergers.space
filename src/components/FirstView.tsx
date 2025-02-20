@@ -28,6 +28,7 @@ const FirstView = () => {
         const handleLogoTransitionEnd = () => {
             setLoad(true);
             document.body.style.overflow = 'auto';
+            window.scrollTo(0, 0);
         };
     
         // Add listeners
