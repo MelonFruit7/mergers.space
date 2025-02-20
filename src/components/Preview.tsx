@@ -1,6 +1,6 @@
 "use client"
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from "react"
+import React, { TouchEvent, useEffect, useRef, useState } from "react"
 import ReviewCard from "@/components/ReviewCard";
 import { BsArrowRightSquareFill, BsArrowLeftSquareFill } from "react-icons/bs";
 
@@ -8,6 +8,14 @@ const Preview = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [data, setData] = useState<any>();
     const [r, setR] = useState<number>(0);
+
+    const toggle_video = () => {
+        console.log("HELLO I GOT HERE");
+        if (videoRef.current) {
+            if (videoRef.current.paused) videoRef.current.play();
+            else videoRef.current.pause();
+        }
+    };
 
     const fetch_data = async () => {
         const response = await fetch("/api/steam-reviews", {method: "GET"});
@@ -53,7 +61,9 @@ const Preview = () => {
 
     // ON START
     useEffect(() =>  {
-        if (videoRef.current) videoRef.current.volume = 0.25;
+        if (videoRef.current) {
+            videoRef.current.volume = 0.75;
+        }
 
         if (mercury && mercury.current) setOffsetMercury((mercury.current.offsetLeft + mercury.current.offsetWidth/2) / mercury.current.offsetWidth * 100);
         if (venus && venus.current) setOffsetVenus((venus.current.offsetLeft + venus.current.offsetWidth/2) / venus.current.offsetWidth * 100);
@@ -124,11 +134,12 @@ const Preview = () => {
                 <div className="relative w-[100vw] h-[100vh] min-h-[50vh] flex-1 flex justify-center overflow-hidden">
                     <div className="p-2">
                         <p className="text-black text-3xl lg:text-6xl text-center font-PressStart select-none">Trailer</p>
-                        <video ref={videoRef} className="max-h-[100vh] border-8 rounded-xl z-10" controls poster="MainCapsule.png" style={{
+                        <video ref={videoRef} className="max-h-[100vh] border-8 rounded-xl z-10" controls playsInline poster="MainCapsule.png" style={{
                             borderStyle: "ridge",
                         }}>
-                            <source src="https://video.fastly.steamstatic.com/store_trailers/256998915/movie480_vp9.webm?t=1740010202" type="video/mp4" />
+                            <source src="SpaceMergersTrailer2.mp4" type="video/mp4" />
                         </video>
+                        <button className="w-full h-10 bg-black my-2 rounded-lg hover:bg-slate-800 font-PixelSans text-lg" onClick={toggle_video}>Toggle Video</button>
                         {/* <img className="absolute bottom-0 left-[50%] w-[8%] transform translate-x-[-50%] translate-y-[50%] -rotate-90" src="ship2.png" alt="neptune"></img> */}
 
 
