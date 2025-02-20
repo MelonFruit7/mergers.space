@@ -124,10 +124,10 @@ const Preview = () => {
                 <div className="relative w-[100vw] h-[100vh] min-h-[50vh] flex-1 flex justify-center overflow-hidden">
                     <div className="p-2">
                         <p className="text-black text-3xl lg:text-6xl text-center font-PressStart select-none">Trailer</p>
-                        <video ref={videoRef} className="max-h-[100vh] border-8 rounded-xl z-10" controls style={{
+                        <video ref={videoRef} className="max-h-[100vh] border-8 rounded-xl z-10" controls poster="MainCapsule.png" style={{
                             borderStyle: "ridge",
                         }}>
-                            <source src=" https://video.akamai.steamstatic.com/store_trailers/256998915/movie480_vp9.webm?t=1707961792" type="video/mp4" />
+                            <source src="https://video.fastly.steamstatic.com/store_trailers/256998915/movie480_vp9.webm?t=1740010202" type="video/mp4" />
                         </video>
                         {/* <img className="absolute bottom-0 left-[50%] w-[8%] transform translate-x-[-50%] translate-y-[50%] -rotate-90" src="ship2.png" alt="neptune"></img> */}
 
