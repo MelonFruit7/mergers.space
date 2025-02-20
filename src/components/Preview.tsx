@@ -10,7 +10,6 @@ const Preview = () => {
     const [r, setR] = useState<number>(0);
 
     const toggle_video = () => {
-        console.log("HELLO I GOT HERE");
         if (videoRef.current) {
             if (videoRef.current.paused) videoRef.current.play();
             else videoRef.current.pause();
