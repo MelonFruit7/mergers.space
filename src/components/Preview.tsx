@@ -138,7 +138,7 @@ const Preview = () => {
                         }}>
                             <source src="https://video.fastly.steamstatic.com/store_trailers/256998915/movie480_vp9.webm?t=1740010202" type="video/mp4" />
                         </video>
-                        <button className="w-full h-10 bg-black my-2 rounded-lg hover:bg-slate-800 font-PixelSans text-lg" onClick={toggle_video}>Toggle Video</button>
+                        <button className="w-full h-10 bg-black my-2 rounded-lg hover:bg-slate-800 font-PixelSans text-lg text-white" onClick={toggle_video}>Toggle Video</button>
                         {/* <img className="absolute bottom-0 left-[50%] w-[8%] transform translate-x-[-50%] translate-y-[50%] -rotate-90" src="ship2.png" alt="neptune"></img> */}
 
 
