@@ -1,6 +1,6 @@
 "use client"
 /* eslint-disable @next/next/no-img-element */
-import React, { TouchEvent, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import ReviewCard from "@/components/ReviewCard";
 import { BsArrowRightSquareFill, BsArrowLeftSquareFill } from "react-icons/bs";
 
